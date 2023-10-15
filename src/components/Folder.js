@@ -20,6 +20,13 @@ function Folder (props) {
         }
     }
 
+    const handleDelete = () => {
+        var payload = {
+            id: folderData.id
+        }
+        props.updateExplorer('delete', payload);
+    }
+
     useEffect(() => {
         setFolderData(props.data);
     }, [props])
@@ -50,6 +57,9 @@ function Folder (props) {
                             <Dropdown>
                                 <DropdownMenu>
                                     <DropdownItem><span onClick={() => setShowInput(true)}>Rename</span></DropdownItem>
+                                    {!folderData.isRoot && (
+                                        <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
+                                    )}
                                 </DropdownMenu>
                             </Dropdown>
                         </span>                        

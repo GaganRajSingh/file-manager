@@ -18,6 +18,13 @@ function File (props) {
         }
     }
 
+    const handleDelete = () => {
+        var payload = {
+            id: fileData.id
+        }
+        props.updateExplorer('delete', payload);
+    }
+
     useEffect(() => {
         setFileDate(props.data);
     }, [props])
@@ -46,6 +53,7 @@ function File (props) {
                             <Dropdown>
                                 <DropdownMenu>
                                     <DropdownItem><span onClick={() => setShowInput(true)}>Rename</span></DropdownItem>
+                                    <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </span>

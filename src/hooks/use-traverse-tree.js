@@ -1,6 +1,6 @@
 const useTraverseTree = () => {
 
-    function rename(fileTree, payload) {
+    function renameNode(fileTree, payload) {
         const id = payload.id;
         const new_name = payload.name;
         let new_tree = [];
@@ -10,14 +10,31 @@ const useTraverseTree = () => {
                 node = { ...node, name: new_name}
             }
             if (node.items && node.items.length > 0){
-                node.items = rename(node.items, payload)
+                node.items = renameNode(node.items, payload)
             }
             new_tree.push(node);
         }
         return new_tree;
     }
 
-    return { rename };
+    function deleteNode(fileTree, payload) {
+        const id = payload.id;
+        let new_tree = [];
+
+        if (fileTree && fileTree.length > 0) {
+            for (let node of fileTree) {
+                if (node.id !== id) {
+                    if (node.isFolder) {
+                        node.items = deleteNode(node.items, payload)
+                    }
+                    new_tree.push(node)
+                }
+            }
+        }
+        return new_tree;
+    }
+
+    return { renameNode, deleteNode };
 }
 
 export default useTraverseTree

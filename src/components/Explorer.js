@@ -16,14 +16,17 @@ function Explorer () {
         }
     }, [])    
     
-    const { rename } = useTraverseTree();
+    const { renameNode, deleteNode } = useTraverseTree();
 
     const updateExplorer = (action, payload) => {
         if (action === 'rename') {                                    
-            const newExplorerData = rename(data, payload)
-            setData(newExplorerData);            
-            updateLocalData(newExplorerData);
-        }                
+            var newExplorerData = renameNode(data, payload)            
+        }
+        if (action === 'delete') {
+            var newExplorerData = deleteNode(data, payload);            
+        }
+        setData(newExplorerData);            
+        updateLocalData(newExplorerData);
     }
 
     const updateLocalData = (updatedLocalData) => {   
