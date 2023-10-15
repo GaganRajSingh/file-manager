@@ -12,6 +12,7 @@ function Folder (props) {
         visible: false,
         isFolder: false
     });
+    const [clipboard, setClipboard] = useState({ isCopied: false, data: null});
     
     const handleRename = (e) => {
         if (e.keyCode == 13) {
@@ -51,8 +52,29 @@ function Folder (props) {
         setDisplayContent(true)
     }
 
+    const handleCopy = () => {
+        var payload = {
+            node: folderData
+        }
+        props.updateExplorer("copy", payload)
+    }
+
+    const handleCut = () => {
+        handleCopy()
+        handleDelete()
+    }
+
+    const handlePaste = () => {        
+        var payload = {
+            parentID: folderData.id,
+            node: clipboard.data
+        }
+        props.updateExplorer('paste', payload);        
+    }
+
     useEffect(() => {
         setFolderData(props.data);
+        setClipboard(props.clipboard);
     }, [props])
 
     return (
@@ -85,7 +107,16 @@ function Folder (props) {
                                         <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
                                     )}
                                     <DropdownItem><span onClick={() => handleAddInput(false)}>Add File</span></DropdownItem>
-                                    <DropdownItem><span onClick={() => handleAddInput(true)}>Add Folder</span></DropdownItem>                                    
+                                    <DropdownItem><span onClick={() => handleAddInput(true)}>Add Folder</span></DropdownItem>
+                                    {!folderData.isRoot && (
+                                        <DropdownItem><span onClick={() => handleCut()}>Cut</span></DropdownItem>
+                                    )}
+                                    {!folderData.isRoot && (
+                                        <DropdownItem><span onClick={() => handleCopy()}>Copy</span></DropdownItem>
+                                    )}
+                                    {clipboard.isCopied && (
+                                        <DropdownItem><span onClick={() => handlePaste()}>Paste</span></DropdownItem>
+                                    )}
                                 </DropdownMenu>
                             </Dropdown>
                         </span>                        
@@ -110,12 +141,12 @@ function Folder (props) {
                     folderData.items.map((item, index) => {                        
                         if (item.isFolder) {
                             return (
-                                <Folder data = {item} updateExplorer = {props.updateExplorer} key = {item.id}/>
+                                <Folder data = {item} updateExplorer = {props.updateExplorer} clipboard = {props.clipboard} key = {item.id}/>
                             )
                         }
                         else {                                                  
                             return (
-                                <File data = {item} updateExplorer = {props.updateExplorer} key = {item.id}/>
+                                <File data = {item} updateExplorer = {props.updateExplorer} clipboard = {props.clipboard} key = {item.id}/>
                             )
                         }
                     })

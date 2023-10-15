@@ -36,18 +36,23 @@ const useTraverseTree = () => {
 
     function addNode(fileTree, payload) {        
         const parentID = payload.parentID;
-        const name = payload.name;
-        const isFolder = payload.isFolder;
-
-        const newNode = {
-            "name": name,
-            "id": JSON.stringify(Date.now()),
-            "isRoot": false,
-            "isFolder": isFolder,
-            "items": isFolder ? [] : null,
-            "content": isFolder ? null : "print('Hello world')",
-            "type": isFolder ? null : "python"
+        if (payload.node) {
+            var newNode = payload.node
         }
+        else {
+            const name = payload.name;
+            const isFolder = payload.isFolder;
+
+            var newNode = {
+                "name": name,
+                "id": JSON.stringify(Date.now()),
+                "isRoot": false,
+                "isFolder": isFolder,
+                "items": isFolder ? [] : null,
+                "content": isFolder ? null : "print('Hello world')",
+                "type": isFolder ? null : "python"
+            }
+        }        
 
         let new_tree = []
         
@@ -66,7 +71,24 @@ const useTraverseTree = () => {
         return new_tree
     }
 
-    return { renameNode, deleteNode, addNode };
+    function updateID(fileTree) {
+        let new_tree = []
+        if (!fileTree.length) {
+            return updateID([fileTree])[0]
+        }
+        for (let node of fileTree){
+            node.id = node.id + '_' + JSON.stringify(Date.now())
+            if (node.isFolder){                
+                if (node.items && node.items.length > 0){
+                    node.items = updateID(node.items)
+                }                
+            }            
+            new_tree.push(node)
+        }
+        return new_tree
+    }
+
+    return { renameNode, deleteNode, addNode, updateID };
 }
 
 export default useTraverseTree

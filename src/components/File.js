@@ -25,6 +25,18 @@ function File (props) {
         props.updateExplorer('delete', payload);
     }
 
+    const handleCopy = () => {
+        var payload = {
+            node: fileData
+        }
+        props.updateExplorer("copy", payload)
+    }
+
+    const handleCut = () => {
+        handleCopy()
+        handleDelete()
+    }
+
     useEffect(() => {
         setFileDate(props.data);
     }, [props])
@@ -54,6 +66,8 @@ function File (props) {
                                 <DropdownMenu>
                                     <DropdownItem><span onClick={() => setShowInput(true)}>Rename</span></DropdownItem>
                                     <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
+                                    <DropdownItem><span onClick={() => handleCut()}>Cut</span></DropdownItem>
+                                    <DropdownItem><span onClick={() => handleCopy()}>Copy</span></DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </span>

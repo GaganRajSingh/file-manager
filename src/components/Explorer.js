@@ -8,6 +8,7 @@ import useTraverseTree from '../hooks/use-traverse-tree';
 function Explorer () {
 
     const [data, setData] = useState(fileData);
+    const [clipboard, setClipboard] = useState({ isCopied: false, data: null});
     
     useEffect(() => {
         const localData = localStorage.getItem('explorerData'); 
@@ -16,7 +17,7 @@ function Explorer () {
         }
     }, [])    
     
-    const { renameNode, deleteNode, addNode } = useTraverseTree();
+    const { renameNode, deleteNode, addNode, updateID } = useTraverseTree();
 
     const updateExplorer = (action, payload) => {
         if (action === 'rename') {                                    
@@ -27,7 +28,15 @@ function Explorer () {
         }
         if (action === 'add') {            
             var newExplorerData = addNode(data, payload);
-            console.log("the new data is: ", newExplorerData)
+        }
+        if (action === 'copy') {            
+            let updated_node = updateID(structuredClone(payload.node))
+            setClipboard({isCopied: true, data: updated_node})
+            var newExplorerData = data;
+        }
+        if (action === 'paste'){
+            var newExplorerData = addNode(data, payload);
+            setClipboard({ isCopied: false, data: null})
         }
 
         setData(newExplorerData);            
@@ -44,12 +53,12 @@ function Explorer () {
                 data.map((item, index) => {                    
                     if (item.isFolder) {                                                
                         return (
-                            <Folder data = {item} updateExplorer = {updateExplorer} key = {item.id}/>
+                            <Folder data = {item} updateExplorer = {updateExplorer} clipboard = {clipboard} key = {item.id}/>
                         )
                     }
                     else {                        
                         return (
-                            <File data = {item} updateExplorer = {updateExplorer} key = {item.id}/>
+                            <File data = {item} updateExplorer = {updateExplorer} clipboard = {clipboard} key = {item.id}/>
                         )
                     }
                 })
