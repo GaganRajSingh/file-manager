@@ -8,6 +8,10 @@ function Folder (props) {
     const [folderData, setFolderData] = useState(props.data);
     const [displayContent, setDisplayContent] = useState(false);
     const [isHovered, setHovered] = useState(false);
+    const [addInput, setAddInput] = useState({
+        visible: false,
+        isFolder: false
+    });
     
     const handleRename = (e) => {
         if (e.keyCode == 13) {
@@ -25,6 +29,26 @@ function Folder (props) {
             id: folderData.id
         }
         props.updateExplorer('delete', payload);
+    }
+
+    const handleAdd = (e) => {
+        if (e.keyCode == 13) {
+            var payload = {
+                parentID: folderData.id,
+                name: e.target.value,
+                isFolder: addInput.isFolder
+            };            
+            props.updateExplorer('add', payload);
+            setAddInput({...addInput, visible: false})
+        }
+    }
+
+    const handleAddInput = (isFolder) => {
+        setAddInput({
+            visible: true,
+            isFolder: isFolder
+        })
+        setDisplayContent(true)
     }
 
     useEffect(() => {
@@ -60,13 +84,27 @@ function Folder (props) {
                                     {!folderData.isRoot && (
                                         <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
                                     )}
+                                    <DropdownItem><span onClick={() => handleAddInput(false)}>Add File</span></DropdownItem>
+                                    <DropdownItem><span onClick={() => handleAddInput(true)}>Add Folder</span></DropdownItem>                                    
                                 </DropdownMenu>
                             </Dropdown>
                         </span>                        
                     </div>
                 )
-            }   
-                
+            }
+
+            <div className="folderContent addInput" style={{display: addInput.visible ? "block" : "none"}}>
+                <span>
+                    {addInput.isFolder ? "📂 " : "📄 "} 
+                    <input
+                        type='text'
+                        autoFocus
+                        onKeyDown={handleAdd}
+                        onBlur={() => setAddInput({...addInput, visible: false})} 
+                    />
+                </span>
+            </div>
+                               
             <div className="folderContent" style={{display: displayContent ? "block" : "none"}}>
                 {
                     folderData.items.map((item, index) => {                        

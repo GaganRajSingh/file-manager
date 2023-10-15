@@ -16,7 +16,7 @@ function Explorer () {
         }
     }, [])    
     
-    const { renameNode, deleteNode } = useTraverseTree();
+    const { renameNode, deleteNode, addNode } = useTraverseTree();
 
     const updateExplorer = (action, payload) => {
         if (action === 'rename') {                                    
@@ -25,6 +25,11 @@ function Explorer () {
         if (action === 'delete') {
             var newExplorerData = deleteNode(data, payload);            
         }
+        if (action === 'add') {            
+            var newExplorerData = addNode(data, payload);
+            console.log("the new data is: ", newExplorerData)
+        }
+
         setData(newExplorerData);            
         updateLocalData(newExplorerData);
     }

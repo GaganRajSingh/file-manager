@@ -34,7 +34,39 @@ const useTraverseTree = () => {
         return new_tree;
     }
 
-    return { renameNode, deleteNode };
+    function addNode(fileTree, payload) {        
+        const parentID = payload.parentID;
+        const name = payload.name;
+        const isFolder = payload.isFolder;
+
+        const newNode = {
+            "name": name,
+            "id": JSON.stringify(Date.now()),
+            "isRoot": false,
+            "isFolder": isFolder,
+            "items": isFolder ? [] : null,
+            "content": isFolder ? null : "print('Hello world')",
+            "type": isFolder ? null : "python"
+        }
+
+        let new_tree = []
+        
+        for (let node of fileTree){            
+            if (node.isFolder) {
+                if (node.id == parentID) {                    
+                    node.items.unshift(newNode)
+                    console.log(node.items)
+                }
+                else {
+                    node.items = addNode(node.items, payload)                 
+                }
+            }            
+            new_tree.push(node)
+        }
+        return new_tree
+    }
+
+    return { renameNode, deleteNode, addNode };
 }
 
 export default useTraverseTree
