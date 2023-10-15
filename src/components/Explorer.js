@@ -5,7 +5,7 @@ import Folder from './Folder'
 import File from './File'
 import useTraverseTree from '../hooks/use-traverse-tree';
 
-function Explorer () {
+function Explorer (props) {
 
     const [data, setData] = useState(fileData);
     const [clipboard, setClipboard] = useState({ isCopied: false, data: null});
@@ -37,6 +37,11 @@ function Explorer () {
         if (action === 'paste'){
             var newExplorerData = addNode(data, payload);
             setClipboard({ isCopied: false, data: null})
+        }
+        if (action === 'view') {
+            props.setContent(payload.content);
+            props.setLanguage(payload.language);
+            var newExplorerData = data;
         }
 
         setData(newExplorerData);            

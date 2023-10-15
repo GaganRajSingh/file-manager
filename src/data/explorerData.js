@@ -12,45 +12,45 @@ const fileData = [
                 "isRoot": false,
                 "items": [
                     {
-                        "name": "sample.txt",
+                        "name": "sample.js",
                         "id": 3,
                         "isFolder": false,
                         "isRoot": false,
                         "items": null,
-                        "content": "test",
-                        "type": "textfile"
+                        "content": "console.log('this is a sample JS file')",
+                        "type": "javascript"
                     }, 
                     {
-                        "name": "sample1.txt",
+                        "name": "sample1.js",
                         "id": 4,
                         "isFolder": false,
                         "isRoot": false,
                         "items": null,
-                        "content": "test",
-                        "type": "textfile"
+                        "content": "console.log('this is another JS file')",
+                        "type": "javascript"
                     }, 
                     {
-                        "name": "images",
+                        "name": "data",
                         "id": 5,
                         "isFolder": true,
                         "items": [
                             {
-                                "name": "dog.jpeg",
+                                "name": "dog.txt",
                                 "id": 6,
                                 "isFolder": false,
                                 "isRoot": false,
                                 "items": null,
-                                "content": "101",
-                                "type": "image"
+                                "content": "dogs ❤️",
+                                "type": "text"
                             },
                             {
-                                "name": "cat.jpeg",
+                                "name": "cat.txt",
                                 "id": 7,
                                 "isFolder": false,
                                 "isRoot": false,
                                 "items": null,
-                                "content": "110",
-                                "type": "image"
+                                "content": "cats ❤️",
+                                "type": "text"
                             }
                         ],
                         "content": null,
@@ -72,7 +72,7 @@ const fileData = [
                         "isFolder": false,
                         "isRoot": false,
                         "items": null,
-                        "content": "startServer()",
+                        "content": "print('Inside the server file')",
                         "type": "python"
                     }
                 ],
@@ -85,7 +85,7 @@ const fileData = [
                 "isFolder": false,
                 "isRoot": false,
                 "items": null,
-                "content": "print(Hello World)",
+                "content": "print('Hello World')",
                 "type": "python"
             }
         ],

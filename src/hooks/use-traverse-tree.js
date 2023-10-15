@@ -1,5 +1,21 @@
 const useTraverseTree = () => {
 
+    var extensions = {
+        "js": 'javascript',
+        "ts": 'typescript',
+        "py": 'python',
+        "json": 'json',
+        "txt": 'textfile'
+    };
+
+    var defaultContent = {
+        "js": 'const a = [1, 2, 3]',
+        "ts": 'function addNumbers(a: number, b: number): number { return a + b; }',
+        "py": 'print(x for x in range(10))',
+        "json": "{\"name\": \"John Doe\",\"age\": 30}",
+        "txt": "This is just some random text."
+    }
+
     function renameNode(fileTree, payload) {
         const id = payload.id;
         const new_name = payload.name;
@@ -43,14 +59,20 @@ const useTraverseTree = () => {
             const name = payload.name;
             const isFolder = payload.isFolder;
 
+            var ext = ''
+            const parts = name.split('.')
+            if (parts.length > 1) {
+                ext = parts[parts.length - 1]
+            }
+
             var newNode = {
                 "name": name,
                 "id": JSON.stringify(Date.now()),
                 "isRoot": false,
                 "isFolder": isFolder,
                 "items": isFolder ? [] : null,
-                "content": isFolder ? null : "print('Hello world')",
-                "type": isFolder ? null : "python"
+                "content": isFolder ? null : (ext in extensions) ? defaultContent[ext] : null,
+                "type": isFolder ? null : (ext in extensions) ? extensions[ext] : "other"
             }
         }        
 

@@ -37,6 +37,10 @@ function File (props) {
         handleDelete()
     }
 
+    const handleView = () => {
+        props.updateExplorer("view", {content: fileData.content, language: fileData.type})
+    }
+
     useEffect(() => {
         setFileDate(props.data);
     }, [props])
@@ -58,7 +62,7 @@ function File (props) {
                         onMouseEnter={() => setHovered(true)}
                         onMouseLeave={() => setHovered(false)}        
                     >
-                        <span>
+                        <span onClick={handleView}>
                             📄 {fileData.name}
                         </span>
                         <span style={{display: isHovered ? 'block' : 'none'}}>
