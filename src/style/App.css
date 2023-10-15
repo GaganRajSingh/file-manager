@@ -34,3 +34,16 @@ html, body, #root, .App {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.hover {
+    background-color: aliceblue;
+}
+
+.f_name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown {
+    margin-right: 10px;
+}
