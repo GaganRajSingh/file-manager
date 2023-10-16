@@ -67,7 +67,7 @@ function File (props) {
                         </span>
                         <span style={{display: isHovered ? 'block' : 'none'}}>
                             <Dropdown>
-                                <DropdownMenu>
+                                <DropdownMenu direction='left'>
                                     <DropdownItem><span onClick={() => setShowInput(true)}>Rename</span></DropdownItem>
                                     <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>
                                     <DropdownItem><span onClick={() => handleCut()}>Cut</span></DropdownItem>

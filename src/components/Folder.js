@@ -101,7 +101,7 @@ function Folder (props) {
                         </span>
                         <span style={{display: isHovered ? "block" : "none"}}>
                             <Dropdown>
-                                <DropdownMenu>
+                                <DropdownMenu direction='left'>
                                     <DropdownItem><span onClick={() => setShowInput(true)}>Rename</span></DropdownItem>
                                     {!folderData.isRoot && (
                                         <DropdownItem><span onClick={() => handleDelete()}>Delete</span></DropdownItem>

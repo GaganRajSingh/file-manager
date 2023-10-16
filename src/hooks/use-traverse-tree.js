@@ -110,7 +110,28 @@ const useTraverseTree = () => {
         return new_tree
     }
 
-    return { renameNode, deleteNode, addNode, updateID };
+    function searchNodes(fileTree, query) {
+        if (query === "") {
+            return []
+        }
+        let searchResult = []
+        for (let node of fileTree) {
+            if (node.name.includes(query)){
+                searchResult.push(node)                
+            }
+            
+            if (node.isFolder){
+                var sub_res = searchNodes(node.items, query);
+                if (sub_res.length > 0){
+                    searchResult = searchResult.concat(sub_res)
+                }
+            }
+            
+        }        
+        return searchResult
+    }
+
+    return { renameNode, deleteNode, addNode, updateID, searchNodes };
 }
 
 export default useTraverseTree

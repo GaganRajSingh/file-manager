@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useDebugValue, useEffect, useState } from 'react';
 import fileData from '../data/explorerData'
-
 import Folder from './Folder'
 import File from './File'
 import useTraverseTree from '../hooks/use-traverse-tree';
+import { Search } from 'semantic-ui-react';
 
 function Explorer (props) {
 
     const [data, setData] = useState(fileData);
+    const [searchData, setSearchData] = useState([]);
     const [clipboard, setClipboard] = useState({ isCopied: false, data: null});
     
     useEffect(() => {
@@ -17,7 +18,7 @@ function Explorer (props) {
         }
     }, [])    
     
-    const { renameNode, deleteNode, addNode, updateID } = useTraverseTree();
+    const { renameNode, deleteNode, addNode, updateID, searchNodes } = useTraverseTree();
 
     const updateExplorer = (action, payload) => {
         if (action === 'rename') {                                    
@@ -51,9 +52,15 @@ function Explorer (props) {
     const updateLocalData = (updatedLocalData) => {   
         localStorage.setItem('explorerData', JSON.stringify(updatedLocalData));
     }
+
+    const handleSearch = (e) => {
+        const searchResult = searchNodes(data, e.target.value);
+        setSearchData(searchResult)
+    }
     
     return (
         <div className="explorer">
+            <div className='dataTree'>
             {                            
                 data.map((item, index) => {                    
                     if (item.isFolder) {                                                
@@ -68,6 +75,29 @@ function Explorer (props) {
                     }
                 })
             }
+            </div>
+            
+            <div className='searchBox'>
+                <Search
+                    showNoResults={false}
+                    onSearchChange={handleSearch}
+                    placeholder='Search'
+                />
+                {
+                    searchData.map((item, index) => {                    
+                        if (item.isFolder) {                                                
+                            return (
+                                <Folder data = {item} updateExplorer = {updateExplorer} clipboard = {clipboard} key = {item.id}/>
+                            )
+                        }
+                        else {                        
+                            return (
+                                <File data = {item} updateExplorer = {updateExplorer} clipboard = {clipboard} key = {item.id}/>
+                            )
+                        }
+                    })
+                }                
+            </div>
         </div>
     );
 }

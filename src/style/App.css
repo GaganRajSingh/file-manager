@@ -24,6 +24,7 @@ html, body, #root, .App {
 
 .explorer {
     width: 30%;
+    position: relative;
 }
 
 .folderContent {
@@ -50,4 +51,21 @@ html, body, #root, .App {
 
 .addInput {
     margin-top: 10px;
+}
+
+.searchBox {
+    position: absolute;
+    height: 35%;
+    width: 92%;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.dataTree {
+    height: 60%;
+    overflow: auto;    
+}
+
+.input {
+    width: 100%;
 }
