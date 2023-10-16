@@ -82,7 +82,7 @@ function Explorer (props) {
                     showNoResults={false}
                     onSearchChange={handleSearch}
                     placeholder='Search'
-                />
+                />                
                 {
                     searchData.map((item, index) => {                    
                         if (item.isFolder) {                                                
@@ -96,7 +96,7 @@ function Explorer (props) {
                             )
                         }
                     })
-                }                
+                }                                     
             </div>
         </div>
     );
